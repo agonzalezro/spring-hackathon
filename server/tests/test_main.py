@@ -4,7 +4,7 @@ import unittest
 from .. import main
 
 
-class FlaskrTestCase(unittest.TestCase):
+class MainTestCase(unittest.TestCase):
     def setUp(self):
         self.client = main.app.test_client()
 

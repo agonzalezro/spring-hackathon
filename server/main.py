@@ -90,6 +90,12 @@ def police():
 
 @app.route('/call', methods=['POST'])
 def call():
+    """Make a call from twilio. For that you will need to post this:
+
+        - from: the number of the client that is calling.
+        - to: the number of the station that you want to call.
+
+    """
     client = TwilioRestClient(
         app.config['TWILIO_ACCOUNT'], app.config['TWILIO_TOKEN']
     )
@@ -104,6 +110,7 @@ def call():
 
 @app.route('/callback/<string:number>')
 def callback(number):
+    """Generate a XML for twilio that will allow it to call the user back."""
     xml_data = render_template('callback_twilio.html', number=number)
     return Response(xml_data, mimetype='text/xml')
 
