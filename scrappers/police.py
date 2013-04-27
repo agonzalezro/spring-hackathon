@@ -64,13 +64,17 @@ def write_police_json_to_stream(stream=None):
     stream.write(']')
 
 
+def get_filename():
+    return os.path.join(
+        os.path.dirname(__file__), '..', 'data', 'police.json'
+    )
+
+
 if __name__ == '__main__':
     logger.info('Starting scrapping @ police...')
 
-    file = os.path.join(
-        os.path.dirname(__file__), '..', 'data', 'police.json'
-    )
-    with open(file, 'w') as stream:
+    filename = get_filename()
+    with open(filename, 'w') as stream:
         write_police_json_to_stream(stream)
 
     logger.info('Finished police scrapping, saved file at {}'.format(file))
