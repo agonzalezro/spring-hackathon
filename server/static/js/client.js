@@ -16,7 +16,17 @@ Police.police = Ember.Object.extend({
 Police.Controller = Ember.Object.create({
     policeStation: Ember.A(),
     init: function(){
-        console.log("Work Ok the init file");
+
+
+        $.post({
+          url: "http://localhost:8000/police",
+          success: function ( data ) {
+           /*$.each(data,function(index,value){
+            console.log(value);
+           });*/
+          }
+        });
+
         var stations = this.get('policeStation')
         stations.addObject(Police.police.create({
             name: 'test#1',
