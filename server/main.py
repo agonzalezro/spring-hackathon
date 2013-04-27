@@ -4,6 +4,7 @@ import os
 from flask import Flask
 from flask import Response
 from flask import render_template
+from flask import request
 from flask import url_for
 from twilio.rest import TwilioRestClient
 
@@ -58,15 +59,14 @@ def police():
 
 @app.route('/call', methods=['POST'])
 def call():
-    import ipdb; ipdb.set_trace()
     client = TwilioRestClient(
         app.config['TWILIO_ACCOUNT'], app.config['TWILIO_TOKEN']
     )
 
     call = client.calls.create(
-        to=number,
+        to=request.form['to'],  # who to call?
         from_=app.config['TWILIO_NUMBER'],
-        url=url_for('callback', number)
+        url=url_for('callback', request.form['from'])  # our user number
     )
     return call.sid
 
