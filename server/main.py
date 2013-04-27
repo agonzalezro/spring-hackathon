@@ -36,6 +36,8 @@ def police():
             ...
         ]
 
+    It can be filtered with the `limit` and `offset` arguments.
+
     .. note:: Some data will be null.
     """
     def _get_police_json_filename():
@@ -50,6 +52,16 @@ def police():
         except ValueError:
             abort(403)
 
+    offset = request.args.get('offset')
+    if offset and limit:
+        try:
+            offset = int(offset)
+        except ValueError:
+            abort(403)
+    elif offset:
+        # Offset can just be used with the limit option
+        abort(403)
+
     with open(_get_police_json_filename()) as stream:
         stations = json.loads(stream.read())
 
@@ -63,8 +75,11 @@ def police():
             'longitude': station['centre'].get('longitude')
         })
 
+    # Yes... we could filter this before load all the json data in a dict
+    if offset:
+        result_stations = result_stations[offset:]
+
     if limit:
-        # Yes... we could filter this before load all the json data in a dict
         result_stations = result_stations[:limit]
 
     return Response(
