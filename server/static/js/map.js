@@ -1,25 +1,5 @@
-var userPosition = null;
-
-/*
-function getLocation() {
-  return navigator.geolocation.getCurrentPosition(showPosition);
-}
-
-function showPosition(position)
-{
-  console.log("Position");
-  userPosition = position.coords;
-  console.log(position.cords);
-}
-
-console.log(getLocation());
-console.log("aaaaaaaa");
-
-console.log(userPosition);
-*/
 var apiKey = "AkDUD0VvGiZnEYgXMzPgz0gbUG9KVSAVGMDHLeeVjCM1pbe-a7FCX4lkEMNJmdHZ";
 map = new OpenLayers.Map("mapdiv");
-
 
 var road = new OpenLayers.Layer.Bing({
     key: apiKey,
@@ -44,28 +24,58 @@ map.addLayers([road, aerial, hybrid]);
 epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //oGS 1984 projection
 projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
 
-var lonLat = new OpenLayers.LonLat(0, 0).transform(epsg4326, projectTo);
+function getLocation(){
+  if (navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(showPosition);
+  }else{
+    //Nothing to do the browser doesn't support geolocation
+    return null;
+  }
+}
+var userPosition = null;
 
+function showPosition(position)
+{
+  var lonLat = new OpenLayers.LonLat(position.coords.longitude, position.coords.latitude).transform(epsg4326, projectTo);
+  var zoom=12;
+  userPosition = position;
+  map.setCenter (lonLat, zoom);
+  add_circle(position,1);
+}
 
-var zoom=12;
-map.setCenter (lonLat, zoom);
-
+getLocation();
 
 var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
 
-
 function createPoint(stationData){
-  console.log(stationData);
   var feature = new OpenLayers.Feature.Vector(
         new OpenLayers.Geometry.Point(stationData.longitude,stationData.latitude).transform(epsg4326, projectTo),
         {description: stationData.name},
         {externalGraphic: '/static/img/police.png', graphicHeight: 25, graphicWidth: 21, graphicXOffset:-12, graphicYOffset:-25  }
     );
   vectorLayer.addFeatures(feature);
-  console.log("Add feature to layer");
 }
 
 map.addLayer(vectorLayer);
+
+
+var circleLayer = new OpenLayers.Layer.Vector("Overlay");
+function add_circle(position,km){
+  circleLayer.destroyFeatures();
+  var point = new OpenLayers.Geometry.Point(position.coords.longitude, position.coords.latitude).transform(epsg4326, projectTo);
+  var mycircle = OpenLayers.Geometry.Polygon.createRegularPolygon
+  (
+      point,
+      km*1000,
+      40,
+      0
+  );
+
+  var featurecircle = new OpenLayers.Feature.Vector(mycircle);
+  circleLayer.addFeatures(featurecircle);
+  map.addLayer(circleLayer);
+}
+
 /*
 var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
 
