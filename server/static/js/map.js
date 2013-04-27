@@ -1,11 +1,10 @@
 var userPosition = null;
 
-function getLocation()
-  {
-
-  console.log("Get location");
+/*
+function getLocation() {
   return navigator.geolocation.getCurrentPosition(showPosition);
-  }
+}
+
 function showPosition(position)
 {
   console.log("Position");
@@ -17,7 +16,7 @@ console.log(getLocation());
 console.log("aaaaaaaa");
 
 console.log(userPosition);
-
+*/
 var apiKey = "AkDUD0VvGiZnEYgXMzPgz0gbUG9KVSAVGMDHLeeVjCM1pbe-a7FCX4lkEMNJmdHZ";
 map = new OpenLayers.Map("mapdiv");
 
@@ -45,7 +44,7 @@ map.addLayers([road, aerial, hybrid]);
 epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //oGS 1984 projection
 projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
 
-var lonLat = new OpenLayers.LonLat( userPosition.latitude , userPosition.longitude ).transform(epsg4326, projectTo);
+var lonLat = new OpenLayers.LonLat(0, 0).transform(epsg4326, projectTo);
 
 
 var zoom=12;
@@ -126,8 +125,7 @@ controls['selector'].activate();
 
 $(function onReady() {
   var changeMapHeight = function() {
-    console.log($(window).height());
-    $('#mapdiv').css('height', $(window).height());
+    $('#mapdiv').css('height', $(window).height() - 40);  // 40px is the bootstrap bar size
     map.updateSize();
   }
 

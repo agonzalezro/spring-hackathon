@@ -1,4 +1,6 @@
 #mapdiv {
+  position: absolute;
+  top: 40px;
   width: 100%;
 }
 
@@ -8,4 +10,8 @@
 
 .olControlAttribution olControlNoSelect {
   bottom: 0px !important;
+}
+
+.nav-list {
+  z-index: 99999;
 }
