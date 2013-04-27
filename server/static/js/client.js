@@ -8,32 +8,20 @@ Police.police = Ember.Object.extend({
     name: null,
     latitude: null,
     longitude: null,
-    phonenumber: null,
+    telephone: null,
+    email: null
 });
-
-
 
 Police.Controller = Ember.Object.create({
     policeStation: Ember.A(),
     init: function(){
-
-
-        $.post({
-          url: "http://localhost:8000/police",
-          success: function ( data ) {
-           /*$.each(data,function(index,value){
-            console.log(value);
-           });*/
-          }
-        });
-
         var stations = this.get('policeStation')
-        stations.addObject(Police.police.create({
-            name: 'test#1',
-            latitude: null,
-            longitude: null,
-            phonenumber: null,
-        }));
+        $.getJSON('/police?limit=1', function(data) {
+            $.each(data, function(index,value){
+              createPoint(value);
+              stations.addObject(Police.police.create(value));
+            });
+        });
     },
     createStation: function(name,lat,longitude,phonenumber){
         var stations = this.get('policeStation')
@@ -48,5 +36,7 @@ Police.Controller = Ember.Object.create({
         console.log("pending chats ok")
         return this.get('policeStation').length;
     }.property('policeStation.@each'),
+    show: function(event){
+      openpopup(event.context);
+    }
 });
-

@@ -30,6 +30,22 @@ var lonLat = new OpenLayers.LonLat( -0.1279688 ,51.5077286 ).transform(epsg4326,
 var zoom=14;
 map.setCenter (lonLat, zoom);
 
+
+var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
+
+
+function createPoint(stationData){
+  console.log(stationData);
+  var feature = new OpenLayers.Feature.Vector(
+        new OpenLayers.Geometry.Point(stationData.longitude,stationData.latitude).transform(epsg4326, projectTo),
+        {description: stationData.name},
+        {externalGraphic: 'img/marker.png', graphicHeight: 25, graphicWidth: 21, graphicXOffset:-12, graphicYOffset:-25  }
+    );
+  vectorLayer.addFeatures(feature);
+  console.log("Add feature to layer");
+}
+
+map.addLayer(vectorLayer);
 /*
 var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
 

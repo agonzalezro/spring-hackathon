@@ -11,7 +11,6 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/libs/bootstrap.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/libs/ember.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/client.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/utils.js') }}"></script>
   </head>
 
@@ -33,14 +32,17 @@
         <div class="span4">
         {% raw %}
            <script type="text/x-handlebars">
-                      <div class="well sidevar-nav">
-                        <ul class="nav nav-list">
-                            {{#each Police.Controller.policeStation}}
-                                <li>{{ name }}</li>
-                            {{/each}}
-                        </ul>
-                        <b>{{ Police.Controller.totalStations }}}</b>
-                    </div>
+              <div class="well sidevar-nav">
+                <ul class="nav nav-list">
+                    {{#each Police.Controller.policeStation}}
+                    <li>
+                        {{ name }}
+                        <button {{action show target="Police.Controller"}}>Show</button>
+                    </li>
+                    {{/each}}
+                </ul>
+                <b>{{ Police.Controller.totalStations }}}</b>
+            </div>
            </script>
         {% endraw %}
 
@@ -49,6 +51,7 @@
 
     <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/client.js') }}"></script>
   </body>
 </html>
 
