@@ -1,1 +1,13 @@
+img { max-width:100%; }
 
+#mapdiv {
+        width: 710px;
+        height: 380px;
+}
+#mapdiv img {
+        max-width:none;
+}
+
+.olControlAttribution olControlNoSelect {
+  bottom: 0px !important;
+}

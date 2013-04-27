@@ -1,48 +1,51 @@
 // We always create an Ember application in the first line
-Chat = Ember.Application.create({
-  LOG_TRANSITIONS: true, 
+Police = Ember.Application.create({
+  LOG_TRANSITIONS: true,
 });
 
 // Then we define our models which *extend* the Ember object (so we can create instances)
-Chat.chat = Ember.Object.extend({
-    from     : null,
-    to       : null,
-    msg      : null,
-    date     : new Date(),
-    xtrainfo : {},
+Police.police = Ember.Object.extend({
+    name: null,
+    latitude: null,
+    longitude: null,
+    phonenumber: null,
 });
 
 
 
-Chat.Controller = Ember.Object.create({
-    chats: Ember.A(),
+Police.Controller = Ember.Object.create({
+    policeStation: Ember.A(),
     init: function(){
         console.log("Work Ok the init file");
-        var messages = this.get('chats')
-        messages.addObject(Chat.chat.create({
-            from :     'eloy',
-            to   :     'conference',
-            msg  :     'hello eloy',
-            xtrainfo:  {type:'merda'},
+        var stations = this.get('policeStation')
+        stations.addObject(Chat.chat.create({
+            name: 'test#1',
+            latitude: null,
+            longitude: null,
+            phonenumber: null,
         }));
     },
-    createChat: function(from,to,msg){
-        console.log("createChat work nice in this moment");
-        this.get('chats').addObject({from: from, to: to, msg: msg});
-        console.log(this.get('chats'));
+    createStation: function(name,lat,longitude,phonenumber){
+        var stations = this.get('policeStation')
+        stations.addObject(Chat.chat.create({
+            name: 'test#1',
+            latitude: null,
+            longitude: null,
+            phonenumber: null,
+        }));
     },
     pendingChats: function(){
         console.log("pending chats ok")
-        return this.get('chats').length;
-    }.property('chats.@each'),
+        return this.get('policeStation').length;
+    }.property('policeStation.@each'),
 });
 
-Chat.CreateChatView = Ember.View.extend({
+Police.CreateStationView = Ember.View.extend({
     from: 'Merda',
-    to: null, 
+    to: null,
     msg: null,
     delete: function(event){
-        // If the button doesn't have submit property you don't need 
+        // If the button doesn't have submit property you don't need
         //event.preventDefault()
         Chat.Controller.deleteChat(this.get(id));
     },
