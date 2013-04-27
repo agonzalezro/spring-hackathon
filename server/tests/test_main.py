@@ -29,3 +29,12 @@ class FlaskrTestCase(unittest.TestCase):
 
         self.assertIsInstance(stations, list)
         self.assertTrue(len(stations) > 0)
+
+    def test_police_json_with_limits(self):
+        """If limits are added on the query params, the json should be filtered
+        like the limits say.
+        """
+        response = self.client.get('/police?limit=100')
+        stations = json.loads(response.data)
+
+        self.assertTrue(len(stations) == 100)

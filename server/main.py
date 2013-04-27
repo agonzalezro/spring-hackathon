@@ -1,6 +1,7 @@
 import json
 import os
 
+from flask import abort
 from flask import Flask
 from flask import Response
 from flask import render_template
@@ -42,6 +43,13 @@ def police():
             os.path.dirname(__file__), '..', 'data', 'police.json'
         )
 
+    limit = request.args.get('limit')
+    if limit:
+        try:
+            limit = int(limit)
+        except ValueError:
+            abort(403)
+
     with open(_get_police_json_filename()) as stream:
         stations = json.loads(stream.read())
 
@@ -54,7 +62,15 @@ def police():
             'latitude': station['centre'].get('latitude'),
             'longitude': station['centre'].get('longitude')
         })
-    return Response(json.dumps(result_stations),  mimetype='application/json')
+
+    if limit:
+        # Yes... we could filter this before load all the json data in a dict
+        result_stations = result_stations[:limit]
+
+    return Response(
+        json.dumps(result_stations),
+        mimetype='application/json'
+    )
 
 
 @app.route('/call', methods=['POST'])
