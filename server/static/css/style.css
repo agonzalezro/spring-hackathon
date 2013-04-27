@@ -1,11 +1,9 @@
-img { max-width:100%; }
-
 #mapdiv {
-        width: 710px;
-        height: 380px;
+  width: 100%;
 }
+
 #mapdiv img {
-        max-width:none;
+  max-width: none;
 }
 
 .olControlAttribution olControlNoSelect {

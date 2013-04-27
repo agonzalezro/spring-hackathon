@@ -28,7 +28,7 @@ projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
 var lonLat = new OpenLayers.LonLat( -0.1279688 ,51.5077286 ).transform(epsg4326, projectTo);
 
 var zoom=14;
-map.setCenter (lonLat, zoom);
+map.setCenter(lonLat, zoom);
 
 
 var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
@@ -102,3 +102,14 @@ map.addControl(controls['selector']);
 controls['selector'].activate();
 
 */
+
+$(function onReady() {
+  var changeMapHeight = function() {
+    console.log($(window).height());
+    $('#mapdiv').css('height', $(window).height());
+    map.updateSize();
+  }
+
+  $(window).resize(changeMapHeight);
+  changeMapHeight();
+});

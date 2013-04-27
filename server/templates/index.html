@@ -16,38 +16,23 @@
 
 
   <body>
-  <div class="navbar navbar-inverse">
-    <div class="navbar-inner">
-    </div>
-  </div>
-
-   <div class="container">
-     <div class="row-fluid">
-
-       <div class="span8 well">
-            <div id="mapdiv" class="mapdiv">
-            </div>
+    <div id="mapdiv" class="mapdiv"></div>
+    {#
+    <div class="span4">
+      {% raw %}
+      <script type="text/x-handlebars">
+        <div class="well sidevar-nav">
+          <ul class="nav nav-list">
+            {{#each Police.Controller.policeStation}}
+            <li>{{ name }}</li>
+            {{/each}}
+          </ul>
+          <b>{{ Police.Controller.totalStations }}}</b>
         </div>
-
-        <div class="span4">
-        {% raw %}
-           <script type="text/x-handlebars">
-              <div class="well sidevar-nav">
-                <ul class="nav nav-list">
-                    {{#each Police.Controller.policeStation}}
-                    <li>
-                        {{ name }}
-                        <button {{action show target="Police.Controller"}}>Show</button>
-                    </li>
-                    {{/each}}
-                </ul>
-                <b>{{ Police.Controller.totalStations }}}</b>
-            </div>
-           </script>
-        {% endraw %}
-
-      </div>
+      </script>
+      {% endraw %}
     </div>
+    #}
 
     <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>
