@@ -1,4 +1,5 @@
 import json
+import os
 
 from flask import Flask
 from flask import Response
@@ -7,7 +8,6 @@ from flask import render_template
 from twilio.rest import TwilioRestClient
 
 
-from scrappers.police import get_filename as get_police_json_filename
 from settings import secret
 
 app = Flask(__name__)
@@ -36,6 +36,11 @@ def police():
 
     .. note:: Some data will be null.
     """
+    def _get_police_json_filename():
+        return os.path.join(
+            os.path.dirname(__file__), '..', 'data', 'police.json'
+        )
+
     with open(get_police_json_filename()) as stream:
         stations = json.loads(stream.read())
 
