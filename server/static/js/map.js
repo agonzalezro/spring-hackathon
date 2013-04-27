@@ -1,3 +1,23 @@
+var userPosition = null;
+
+function getLocation()
+  {
+
+  console.log("Get location");
+  return navigator.geolocation.getCurrentPosition(showPosition);
+  }
+function showPosition(position)
+{
+  console.log("Position");
+  userPosition = position.coords;
+  console.log(position.cords);
+}
+
+console.log(getLocation());
+console.log("aaaaaaaa");
+
+console.log(userPosition);
+
 var apiKey = "AkDUD0VvGiZnEYgXMzPgz0gbUG9KVSAVGMDHLeeVjCM1pbe-a7FCX4lkEMNJmdHZ";
 map = new OpenLayers.Map("mapdiv");
 
@@ -22,13 +42,14 @@ var hybrid = new OpenLayers.Layer.Bing({
 
 map.addLayers([road, aerial, hybrid]);
 
-epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
+epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //oGS 1984 projection
 projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
 
-var lonLat = new OpenLayers.LonLat( -0.1279688 ,51.5077286 ).transform(epsg4326, projectTo);
+var lonLat = new OpenLayers.LonLat( userPosition.latitude , userPosition.longitude ).transform(epsg4326, projectTo);
 
-var zoom=14;
-map.setCenter(lonLat, zoom);
+
+var zoom=12;
+map.setCenter (lonLat, zoom);
 
 
 var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
@@ -39,7 +60,7 @@ function createPoint(stationData){
   var feature = new OpenLayers.Feature.Vector(
         new OpenLayers.Geometry.Point(stationData.longitude,stationData.latitude).transform(epsg4326, projectTo),
         {description: stationData.name},
-        {externalGraphic: 'img/marker.png', graphicHeight: 25, graphicWidth: 21, graphicXOffset:-12, graphicYOffset:-25  }
+        {externalGraphic: '/static/img/police.png', graphicHeight: 25, graphicWidth: 21, graphicXOffset:-12, graphicYOffset:-25  }
     );
   vectorLayer.addFeatures(feature);
   console.log("Add feature to layer");

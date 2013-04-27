@@ -16,7 +16,7 @@ Police.Controller = Ember.Object.create({
     policeStation: Ember.A(),
     init: function(){
         var stations = this.get('policeStation')
-        $.getJSON('/police?limit=1', function(data) {
+        $.getJSON('/police?offset=1500&limit=2000', function(data) {
             $.each(data, function(index,value){
               createPoint(value);
               stations.addObject(Police.police.create(value));
