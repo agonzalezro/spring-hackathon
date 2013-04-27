@@ -31,15 +31,18 @@
         </div>
 
         <div class="span4">
-
-
-          <div class="well sidevar-nav">
-            <ul class="nav nav-list">
-               <li>Twittenham</li>
-               <li>Webmister</li>
-            </ul>
-          </div>
-        </div>
+        {% raw %}
+           <script type="text/x-handlebars">
+                      <div class="well sidevar-nav">
+                        <ul class="nav nav-list">
+                            {{#each Police.Controller.policeStation}}
+                                <li>{{ name }}</li>
+                            {{/each}}
+                        </ul>
+                        <b>{{ Police.Controller.totalStations }}}</b>
+                    </div>
+           </script>
+        {% endraw %}
 
       </div>
     </div>
@@ -48,3 +51,5 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>
   </body>
 </html>
+
+</script>

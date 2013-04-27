@@ -2,6 +2,8 @@ from flask import Flask
 from flask import jsonify
 from flask import render_template
 from twilio.rest import TwilioRestClient
+from flask import Response
+
 
 from settings import secret
 
@@ -19,7 +21,7 @@ def police():
     return 'todo'
 
 
-@app.route('/call/<int:post_id>', methods=['POST'])
+@app.route('/call/<int:number>', methods=['POST'])
 def call(number):
     client = TwilioRestClient(
         app.config['TWILIO_ACCOUNT'], app.config['TWILIO_TOKEN']
@@ -32,6 +34,10 @@ def call(number):
     )
     return call.sid
 
+@app.route('/callback/<string:number>', methods=['POST','GET'])
+def send_xml_data(number):
+    xmlData =  render_template('callback_twilio.html', number=number)
+    return Response(xmlData, mimetype='text/xml')
 
 if __name__ == '__main__':
     app.debug = True
