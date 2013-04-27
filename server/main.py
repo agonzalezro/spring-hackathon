@@ -3,8 +3,8 @@ import os
 
 from flask import Flask
 from flask import Response
-from flask import jsonify
 from flask import render_template
+from flask import url_for
 from twilio.rest import TwilioRestClient
 
 
@@ -41,7 +41,7 @@ def police():
             os.path.dirname(__file__), '..', 'data', 'police.json'
         )
 
-    with open(get_police_json_filename()) as stream:
+    with open(_get_police_json_filename()) as stream:
         stations = json.loads(stream.read())
 
     result_stations = []
@@ -53,11 +53,12 @@ def police():
             'latitude': station['centre'].get('latitude'),
             'longitude': station['centre'].get('longitude')
         })
-    return jsonify(results=result_stations)
+    return Response(json.dumps(result_stations),  mimetype='application/json')
 
 
-@app.route('/call/<int:number>', methods=['POST'])
-def call(number):
+@app.route('/call', methods=['POST'])
+def call():
+    import ipdb; ipdb.set_trace()
     client = TwilioRestClient(
         app.config['TWILIO_ACCOUNT'], app.config['TWILIO_TOKEN']
     )
@@ -65,15 +66,16 @@ def call(number):
     call = client.calls.create(
         to=number,
         from_=app.config['TWILIO_NUMBER'],
-        url="http://twimlets.com/holdmusic?Bucket=com.twilio.music.ambient"
+        url=url_for('callback', number)
     )
     return call.sid
 
 
 @app.route('/callback/<string:number>')
-def send_xml_data(number):
+def callback(number):
     xml_data = render_template('callback_twilio.html', number=number)
     return Response(xml_data, mimetype='text/xml')
+
 
 if __name__ == '__main__':
     app.debug = True
