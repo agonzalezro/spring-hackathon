@@ -18,11 +18,15 @@ Police.Controller = Ember.Object.create({
   policeStations: Ember.A(),
 
   render: function() {
-    Police.Collection.render();
+    // Seriously!? Please, do a pull request for fix this crap
+    if (Police.Collection)
+      Police.Collection.init();
+
+    if (!$('.dropdown-menu').is(':visible'))
+      $('.dropdown-menu').show()
   },
 
   init: function(){
-    var render = this.get('render');
     var stations = this.get('policeStations');
 
     $.getJSON('/police?limit=2', function(data) {
@@ -30,23 +34,24 @@ Police.Controller = Ember.Object.create({
         createPoint(item);
         station = Police.police.create(item);
         stations.addObject(station);
-        Police.Collection.content.push(station);
       });
     });
   },
 
-  search: function(query) {
+  search: function() {
     var query = $('.search-query').val();
 
     var render = this.get('render');
     var stations = this.get('policeStations');
 
-    stations.forEach(function (item) {
-      Police.Collection.content = []
+    Police.Collection.content.clear();
 
+    stations.forEach(function (item) {
       if (item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1)
         Police.Collection.content.push(item);
     });
+
+    render();
   }
 });
 
@@ -71,4 +76,8 @@ Police.Collection.appendTo('.dropdown');
 // Probably the application should include this searchbox too
 $('.search-query').keypress(function onKeyPress() {
   Police.Controller.search();
+});
+
+$('.dropdown').click(function onClick() {
+  $('.dropdown-menu').hide();
 });

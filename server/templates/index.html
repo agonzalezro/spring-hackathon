@@ -32,23 +32,23 @@
 
     <div id="mapdiv" class="mapdiv"></div>
 
+    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/client.js') }}"></script>
+
     {# TODO (agonzalezro): move this to a different file #}
     <script type="text/x-handlebars" data-template-name="station-collection-view">
       {% raw %}
-      {{#collection contentBinding="Police.Controller"}}
+      {{#collection contentBinding="Police.Collection.content"}}
       {{/collection}}
       {% endraw %}
     </script>
 
     <script type="text/x-handlebars" data-template-name="station-view">
       {% raw %}
-      {{ content.name }}
+      <a href="#">{{ content.name }}</a>
       {% endraw %}
     </script>
-
-    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/client.js') }}"></script>
   </body>
 </html>
 
