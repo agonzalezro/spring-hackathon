@@ -1,4 +1,3 @@
 <Response>
-    <Say>A customer at the number 999 </Say>
-    <Dial>{{ number }} </Dial>
+    <Say>Hello</Say>
 </Response>

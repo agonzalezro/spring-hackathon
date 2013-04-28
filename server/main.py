@@ -12,12 +12,12 @@ from twilio import TwilioRestException
 from twilio.rest import TwilioRestClient
 from urlparse import urljoin
 
-from settings import secret
+from config import Config
 
 
 logger = logging.getLogger(__name__)
 app = Flask(__name__)
-app.config.from_object(secret.SecretConfig())
+app.config.from_object(Config())
 
 
 def log(log_function, message):
