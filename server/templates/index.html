@@ -12,6 +12,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/libs/bootstrap.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/libs/ember.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/call.js') }}"></script>
   </head>
 
   <body>
@@ -22,7 +23,7 @@
           <div class="nav">
             <li class="dropdown">
             <form class="navbar-search pull-left" action="">
-              <input type="text" class="search-query span4" placeholder="Search">
+              <input type="text" class="search-query span4" placeholder="Search for a police station...">
             </form>
             </li>
           </div>
@@ -46,7 +47,7 @@
 
     <script type="text/x-handlebars" data-template-name="station-view">
       {% raw %}
-      <a href="#">{{ content.name }}</a>
+      <a onclick="moveToLatLon({{ unbound content.latitude }}, {{ unbound content.longitude }});" href="#">{{ content.name }}</a>
       {% endraw %}
     </script>
   </body>

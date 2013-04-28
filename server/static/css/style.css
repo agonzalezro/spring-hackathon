@@ -15,3 +15,5 @@
 .nav-list {
   z-index: 99999;
 }
+
+#pop_close { display: none; }
