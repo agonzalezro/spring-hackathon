@@ -27,7 +27,17 @@ var onModalInputKeyUp = function (ev) {
 var onModalButtonClick = function (ev) {
   var from = $('#callModal > .modal-body > input#from').val();
   var to = $('#callModal > .modal-body > input#to').val();
-
-  console.log(from);
-  console.log(to);
+   $.ajax({
+    type: "POST",
+    url: '/call',
+    data: {
+      from: from,
+      to: to,
+    },
+    success: function(){
+       console.log("call is ok");
+    }
+  });
+  //console.log(from);
+  //console.log(to);
 }
