@@ -40,7 +40,8 @@ def police():
                 'latitude': 'the_latitude',
                 'longitude': 'the_latitude',
                 'telephone': 'the_telephone',
-                'email': 'the_email'
+                'email': 'the_email',
+                'twitter': 'Default None'
             },
             ...
         ]
@@ -74,6 +75,7 @@ def police():
     with open(_get_police_json_filename()) as stream:
         stations = json.loads(stream.read())
 
+
     result_stations = []
     for station in stations:
         result_stations.append({
@@ -81,9 +83,10 @@ def police():
             'telephone': station['contact_details'].get('telephone'),
             'email': station['contact_details'].get('email'),
             'latitude': station['centre'].get('latitude'),
-            'longitude': station['centre'].get('longitude')
+            'longitude': station['centre'].get('longitude'),
+            'twitter':  station['contact_details'].get("twitter")
         })
-
+    import ipdb; ipdb.set_trace()
     # Yes... we could filter this before load all the json data in a dict
     if offset:
         result_stations = result_stations[offset:]
