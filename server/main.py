@@ -141,7 +141,7 @@ def call():
     return call.sid
 
 
-@app.route('/callback/<string:number>')
+@app.route('/callback/<string:number>', methods=['POST'])
 def callback(number):
     """Generate a XML for twilio that will allow it to call the user back."""
     xml_data = render_template('callback_twilio.xml', number=number)
