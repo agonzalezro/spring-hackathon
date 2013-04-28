@@ -13,12 +13,7 @@ We are using three of the services from the organizers:
 Usage
 -----
 
-You will need to create a file `settings/secret.py` with an object like this::
-
-    class SecretConfig(object):
-        ...
-
-And the following attributes:
+You will need to create set the following environmant variables:
 
 `TWILIO_ACCOUNT`
     your twilio account sid.
@@ -26,3 +21,5 @@ And the following attributes:
     you twilio account token.
 `TWILIO_NUMBER`
     the number that you want to show on the from field.
+`SERVER_NAME`
+    the host of the server where the app is being deployed.
