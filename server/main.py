@@ -20,6 +20,11 @@ app = Flask(__name__)
 app.config.from_object(secret.SecretConfig())
 
 
+def log(log_function, message):
+    print message
+    log_function(message)
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -104,10 +109,11 @@ def call():
     to_phone = request.form['to']
 
     if not from_phone or not to_phone:
-        logger.error('No from & to provided!')
+        log(logger.error, 'No from & to provided!')
         abort(400)
 
-    logger.info(
+    log(
+        logger.info,
         'Making a call from {from_phone} to {to_phone}'.format(
             from_phone=from_phone, to_phone=to_phone
         )
@@ -120,12 +126,10 @@ def call():
         call = client.calls.create(
             to=request.form['to'],  # who to call?
             from_=app.config['TWILIO_NUMBER'],
-            url= 'http://acalustra:5000{}'.format(
-                url_for('callback', number=request.form['from'])
-            )  # our user number
+            url=url_for('callback', number=request.form['from'])  # user number
         )
     except TwilioRestException as exception:
-        logger.critical(exception.message)
+        log(logger.critical, exception.message)
         abort(400)
 
     return call.sid
