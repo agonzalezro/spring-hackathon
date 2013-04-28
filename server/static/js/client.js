@@ -27,6 +27,9 @@ Police.Controller = Ember.Object.create({
 
     var stations = this.get('policeStations');
     var filtered = this.get('filteredSearch');
+    filtered.addObject(Police.police.create({
+          name: 'eloy',
+    }))
 
     $.getJSON('/police?offset=2000&limit=1500', function(data) {
       $.each(data, function(index, item){
@@ -35,28 +38,32 @@ Police.Controller = Ember.Object.create({
         stations.addObject(station);
         Police.Collection.content.push(station);
       });
-
-      render();
     });
   },
-
-  search: function() {
-    var query = $('.search-query').val();
+  search: function(query) {
+    //var query = $('.search-query').val();
 
     var render = this.get('render');
     var stations = this.get('policeStations');
     var filtered = this.get('filteredSearch');
 
     stations.forEach(function (item) {
+      console.log("test");
       filtered.clear();
       if (item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1)
         filtered.addObject(item);
     });
-
-    render();
   }
 });
 
+
+Police.SearchBox = Em.TextField.extend({
+    insertNewline: function() {
+      var query = this.get('value');
+      Police.Controller.search(query);
+    }
+
+  });
 
 Police.Collection = Ember.CollectionView.create({
   tagName: 'ul',

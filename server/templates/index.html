@@ -22,10 +22,17 @@
           <span class="brand">Spring Hackathon '13</span>
           <div class="nav">
             <li class="dropdown">
-            <form class="navbar-search pull-left" action="">
-              <input type="text" class="search-query span4" placeholder="Search">
-            </form>
-            </li>
+              {%raw%}
+              <script type="text/x-handlebars">
+                {{view Police.SearchBox placeholder="What" }}
+              <ul>
+                {{#each Police.Controller.filteredSearch }}
+                  {{ name }}
+                {{/each}}
+              </ul>
+              </script>
+              {%endraw%}
+           </li>
           </div>
         </div>
       </div>
