@@ -10,7 +10,7 @@ from flask import request
 from flask import url_for
 from twilio import TwilioRestException
 from twilio.rest import TwilioRestClient
-
+from urlparse import urljoin
 
 from settings import secret
 
@@ -123,11 +123,14 @@ def call():
         app.config['TWILIO_ACCOUNT'], app.config['TWILIO_TOKEN']
     )
     try:
-        url = url_for('callback', number=from_phone)
+        url = urljoin(
+            'http://{host}'.format(host=app.config['SERVER_NAME']),
+            url_for('callback', number=from_phone)
+        )
         call = client.calls.create(
             to=to_phone,  # who to call?
             from_=app.config['TWILIO_NUMBER'],
-            url="http://spring-hackaton.herokuapp.com%s"%(url)
+            url=url
         )
     except TwilioRestException as exception:
         log(logger.critical, 'Bad XML? {url}'.format(url=url))
