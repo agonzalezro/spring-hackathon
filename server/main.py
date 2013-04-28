@@ -122,11 +122,12 @@ def call():
     client = TwilioRestClient(
         app.config['TWILIO_ACCOUNT'], app.config['TWILIO_TOKEN']
     )
+    url = urljoin(
+        'http://{host}'.format(host=app.config['SERVER_NAME']),
+        url_for('callback', number=from_phone)
+    )
+
     try:
-        url = urljoin(
-            'http://{host}'.format(host=app.config['SERVER_NAME']),
-            url_for('callback', number=from_phone)
-        )
         call = client.calls.create(
             to=to_phone,  # who to call?
             from_=app.config['TWILIO_NUMBER'],
