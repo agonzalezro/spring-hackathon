@@ -1,3 +1,33 @@
 var call = function(number) {
-  console.log(number);
+  // TODO (agonzalezro): remove this for live
+  // We don't want to call the police always :D
+  number = '+447761060459';
+
+  $('#callModal > .modal-body > input#from').keyup(onModalInputKeyUp);
+  $('#callModal > .modal-body > input#to').val(number);
+
+  var button = $("#callModal > .modal-footer > button");
+  button.click(onModalButtonClick);
+
+  $('#callModal').modal('show');
 };
+
+var onModalInputKeyUp = function (ev) {
+  var button = $('#callModal > .modal-footer > button');
+  var input = $('#callModal > .modal-body > input#from');
+
+  if (input.val()) {
+    button.removeClass('disabled');
+  } else {
+    if (!button.hasClass('disabled'))
+      button.addClass('disabled');
+  }
+}
+
+var onModalButtonClick = function (ev) {
+  var from = $('#callModal > .modal-body > input#from').val();
+  var to = $('#callModal > .modal-body > input#to').val();
+
+  console.log(from);
+  console.log(to);
+}
