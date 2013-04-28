@@ -40,22 +40,22 @@ class MainTestCase(unittest.TestCase):
         self.assertTrue(len(stations) == 100)
 
     def test_police_json_with_limit_not_being_int(self):
-        """If the limit is not an integer, a 403 response will be raised."""
+        """If the limit is not an integer, a 400 response will be raised."""
         response = self.client.get('/police?limit=breakit')
 
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 400)
 
     def test_police_json_with_offset_but_no_limit(self):
-        """Test that if offset is sent, but no limit, a 403 is raised."""
+        """Test that if offset is sent, but no limit, a 400 is raised."""
         response = self.client.get('/police?offset=1')
 
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 400)
 
     def test_police_json_with_offset_non_integer(self):
-        """If the offset is not an integer a 403 will be raised"""
+        """If the offset is not an integer a 400 will be raised"""
         response = self.client.get('/police?offset=breakit&limit=1')
 
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 400)
 
     def test_police_json_with_offset_and_limit(self):
         """Test that if the args are sent ok, the response is a list.

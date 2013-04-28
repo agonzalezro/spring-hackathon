@@ -1,5 +1,6 @@
 import json
 import os
+import logging
 
 from flask import abort
 from flask import Flask
@@ -12,6 +13,8 @@ from twilio.rest import TwilioRestClient
 
 from settings import secret
 
+
+logger = logging.getLogger(__name__)
 app = Flask(__name__)
 app.config.from_object(secret.SecretConfig())
 
@@ -50,17 +53,17 @@ def police():
         try:
             limit = int(limit)
         except ValueError:
-            abort(403)
+            abort(400)
 
     offset = request.args.get('offset')
     if offset and limit:
         try:
             offset = int(offset)
         except ValueError:
-            abort(403)
+            abort(400)
     elif offset:
         # Offset can just be used with the limit option
-        abort(403)
+        abort(400)
 
     with open(_get_police_json_filename()) as stream:
         stations = json.loads(stream.read())
@@ -96,6 +99,19 @@ def call():
         - to: the number of the station that you want to call.
 
     """
+    from_phone = request.form['from']
+    to_phone = request.form['to']
+
+    if from_phone and to_phone:
+        logger.error('No from & to provided!')
+        abort(400)
+
+    logger.info(
+        'Making a call from {from_phone} to {to_phone}'.format(
+            from_phone=from_phone, to_phone=to_phone
+        )
+    )
+
     client = TwilioRestClient(
         app.config['TWILIO_ACCOUNT'], app.config['TWILIO_TOKEN']
     )
@@ -105,6 +121,7 @@ def call():
         from_=app.config['TWILIO_NUMBER'],
         url= 'http://acalustra:5000{}'.format(url_for('callback',number=request.form['from']))  # our user number
     )
+
     return call.sid
 
 
