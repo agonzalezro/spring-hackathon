@@ -35,4 +35,4 @@ nosetests.xml
 .pydevproject
 .ropeproject
 
-server/settings/secret.py
+secret
