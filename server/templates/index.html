@@ -14,7 +14,6 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/utils.js') }}"></script>
   </head>
 
-
   <body>
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
@@ -22,17 +21,10 @@
           <span class="brand">Spring Hackathon '13</span>
           <div class="nav">
             <li class="dropdown">
-              {%raw%}
-              <script type="text/x-handlebars">
-                {{view Police.SearchBox placeholder="What" }}
-              <ul>
-                {{#each Police.Controller.filteredSearch }}
-                  {{ name }}
-                {{/each}}
-              </ul>
-              </script>
-              {%endraw%}
-           </li>
+            <form class="navbar-search pull-left" action="">
+              <input type="text" class="search-query span4" placeholder="Search">
+            </form>
+            </li>
           </div>
         </div>
       </div>
@@ -41,11 +33,18 @@
     <div id="mapdiv" class="mapdiv"></div>
 
     {# TODO (agonzalezro): move this to a different file #}
-    <script type='text/x-handlebars' data-template-name='station-view'>
+    <script type="text/x-handlebars" data-template-name="station-collection-view">
       {% raw %}
-      hello {{ view.content.name }};
+      {{#collection contentBinding="Police.Controller"}}
+      {{/collection}}
       {% endraw %}
-    </script>a
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="station-view">
+      {% raw %}
+      {{ content.name }}
+      {% endraw %}
+    </script>
 
     <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>

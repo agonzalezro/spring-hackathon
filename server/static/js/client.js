@@ -16,7 +16,6 @@ Police.police = Ember.Object.extend({
 
 Police.Controller = Ember.Object.create({
   policeStations: Ember.A(),
-  filteredSearch: Ember.A(),
 
   render: function() {
     Police.Collection.render();
@@ -24,14 +23,9 @@ Police.Controller = Ember.Object.create({
 
   init: function(){
     var render = this.get('render');
-
     var stations = this.get('policeStations');
-    var filtered = this.get('filteredSearch');
-    filtered.addObject(Police.police.create({
-          name: 'eloy',
-    }))
 
-    $.getJSON('/police?offset=2000&limit=1500', function(data) {
+    $.getJSON('/police?limit=2', function(data) {
       $.each(data, function(index, item){
         createPoint(item);
         station = Police.police.create(item);
@@ -40,41 +34,37 @@ Police.Controller = Ember.Object.create({
       });
     });
   },
+
   search: function(query) {
-    //var query = $('.search-query').val();
+    var query = $('.search-query').val();
 
     var render = this.get('render');
     var stations = this.get('policeStations');
-    var filtered = this.get('filteredSearch');
 
     stations.forEach(function (item) {
-      console.log("test");
-      filtered.clear();
+      Police.Collection.content = []
+
       if (item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1)
-        filtered.addObject(item);
+        Police.Collection.content.push(item);
     });
   }
 });
 
 
-Police.SearchBox = Em.TextField.extend({
-    insertNewline: function() {
-      var query = this.get('value');
-      Police.Controller.search(query);
-    }
-
-  });
-
 Police.Collection = Ember.CollectionView.create({
   tagName: 'ul',
   classNames: ['dropdown-menu'],
+
   content: [],
 
-  itemViewClass: Ember.View.extend({
+  templateName: 'station-collection-view',
+  itemViewClass:  Ember.View.extend({
     tagName: 'li',
     templateName: 'station-view'
   })
-}).appendTo('.dropdown');
+});
+
+Police.Collection.appendTo('.dropdown');
 
 
 // TODO (agonzalezro): This is a little bit crappy, please, fix
