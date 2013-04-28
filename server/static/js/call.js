@@ -25,17 +25,17 @@ var onModalInputKeyUp = function (ev) {
 }
 
 var onModalButtonClick = function (ev) {
+  $(this).unbind('click');
+
   var from = $('#callModal > .modal-body > input#from').val();
   var to = $('#callModal > .modal-body > input#to').val();
-   $.ajax({
+
+  $.ajax({
     type: "POST",
     url: '/call',
     data: {
       from: from,
       to: to,
-    },
-    success: function(){
-       console.log("call is ok");
     }
   });
   //console.log(from);
