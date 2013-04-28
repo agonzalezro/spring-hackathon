@@ -70,3 +70,15 @@ class MainTestCase(unittest.TestCase):
 
         expected_result = json.loads(response1.data)[1]
         self.assertEqual(json.loads(response2.data)[0], expected_result)
+
+    def test_twilio_send_an_error_back(self):
+        """Test that the twilio view is working.
+
+        The best way would be mocking twilio, but... c'mmon, it's a hackathon!
+
+        """
+        response = self.client.post('/call', data={
+            'from': 'this_will_break',
+            'to': 'for sure!'
+        })
+        self.assertEqual(response.status_code, 400)
