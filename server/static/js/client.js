@@ -10,7 +10,8 @@ Police.police = Ember.Object.extend({
   latitude: null,
   longitude: null,
   telephone: null,
-  email: null
+  email: null,
+  twitter: null
 });
 
 
