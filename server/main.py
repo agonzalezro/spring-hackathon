@@ -1,6 +1,7 @@
 import json
 import os
 import logging
+from urlparse import urljoin
 
 from flask import abort
 from flask import Flask
@@ -10,7 +11,6 @@ from flask import request
 from flask import url_for
 from twilio import TwilioRestException
 from twilio.rest import TwilioRestClient
-from urlparse import urljoin
 
 from config import Config
 

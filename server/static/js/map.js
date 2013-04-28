@@ -82,7 +82,7 @@ function createPoint(stationData){
     message += '<strong>' + name + '</strong><br>';
     if (email && phone) {
       message += 'You can <a href="mailto://"' + email + '">send me an email</a> ';
-      message += 'or you just can <a href="#" onclick="call("' + phone + '");">call me</a> (maybe)!</a>';
+      message += 'or you just can <a href="#" onclick="call(\'' + phone + '\');">call me</a> (maybe)!</a>';
     } else if (email)
       message += '<a href="mailto://"' + email + '">Send me an email!</a>';
     else if (phone)
