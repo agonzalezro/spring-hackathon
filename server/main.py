@@ -123,12 +123,14 @@ def call():
         app.config['TWILIO_ACCOUNT'], app.config['TWILIO_TOKEN']
     )
     try:
+        url = url_for('callback', number=from_phone)
         call = client.calls.create(
-            to=request.form['to'],  # who to call?
+            to=to_phone,  # who to call?
             from_=app.config['TWILIO_NUMBER'],
-            url=url_for('callback', number=request.form['from'])  # user number
+            url=url
         )
     except TwilioRestException as exception:
+        log(logger.critical, 'Bad XML? {url}'.format(url=url))
         log(logger.critical, exception.message)
         abort(400)
 
