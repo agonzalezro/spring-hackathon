@@ -31,6 +31,21 @@
       </div>
     </div>
 
+    <div id="callModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="callModalLabel">We need your number</h3>
+      </div>
+      <div class="modal-body">
+        <p><strong>You are going to call this police station.</strong></p>
+        <p>When the police station gets the call, the system will call you back to talk with them. Be ready!</p>
+        <input type="tel" placeholder="Your number here">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger disabled" data-dismiss="modal" aria-hidden="true">Call</button>
+      </div>
+    </div>
+
     <div id="mapdiv" class="mapdiv"></div>
 
     <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
