@@ -8,6 +8,7 @@ from flask import Response
 from flask import render_template
 from flask import request
 from flask import url_for
+from twilio import TwilioRestException
 from twilio.rest import TwilioRestClient
 
 
@@ -102,7 +103,7 @@ def call():
     from_phone = request.form['from']
     to_phone = request.form['to']
 
-    if from_phone and to_phone:
+    if not from_phone or not to_phone:
         logger.error('No from & to provided!')
         abort(400)
 
@@ -115,12 +116,17 @@ def call():
     client = TwilioRestClient(
         app.config['TWILIO_ACCOUNT'], app.config['TWILIO_TOKEN']
     )
-    #print request.get('from')
-    call = client.calls.create(
-        to=request.form['to'],  # who to call?
-        from_=app.config['TWILIO_NUMBER'],
-        url= 'http://acalustra:5000{}'.format(url_for('callback',number=request.form['from']))  # our user number
-    )
+    try:
+        call = client.calls.create(
+            to=request.form['to'],  # who to call?
+            from_=app.config['TWILIO_NUMBER'],
+            url= 'http://acalustra:5000{}'.format(
+                url_for('callback', number=request.form['from'])
+            )  # our user number
+        )
+    except TwilioRestException as exception:
+        logger.critical(exception.message)
+        abort(400)
 
     return call.sid
 
