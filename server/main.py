@@ -127,7 +127,7 @@ def call():
         call = client.calls.create(
             to=to_phone,  # who to call?
             from_=app.config['TWILIO_NUMBER'],
-            url=url
+            url="http://spring-hackaton.herokuapp.com%s"%(url)
         )
     except TwilioRestException as exception:
         log(logger.critical, 'Bad XML? {url}'.format(url=url))
