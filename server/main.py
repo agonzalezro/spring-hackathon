@@ -78,15 +78,18 @@ def police():
 
     result_stations = []
     for station in stations:
+        twitter =  station['contact_details'].get("twitter")
+        if twitter:
+            twitter = twitter.split('/')[-1].replace('@','')
         result_stations.append({
             'name': station.get('name'),
             'telephone': station['contact_details'].get('telephone'),
             'email': station['contact_details'].get('email'),
             'latitude': station['centre'].get('latitude'),
             'longitude': station['centre'].get('longitude'),
-            'twitter':  station['contact_details'].get("twitter")
+            'twitter': twitter
         })
-    import ipdb; ipdb.set_trace()
+
     # Yes... we could filter this before load all the json data in a dict
     if offset:
         result_stations = result_stations[offset:]
