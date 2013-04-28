@@ -77,9 +77,14 @@ function createPoint(stationData){
     var name = feature.attributes.name;
     var phone = feature.attributes.telephone;
     var email = feature.attributes.email;
+    var twitter = feature.attributes.twitter;
 
     var message = '<div class="markerContent">';
     message += '<strong>' + name + '</strong><br>';
+
+    if (twitter)
+      message += '<a href="https://twitter.com/' + twitter + '">Follow us on twitter!</a><br>';
+
     if (email && phone) {
       message += 'You can <a href="mailto://"' + email + '">send me an email</a> ';
       message += 'or you just can <a href="#" onclick="call(\'' + phone + '\');">call me</a> (maybe)!</a>';
