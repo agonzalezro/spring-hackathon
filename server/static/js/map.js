@@ -1,6 +1,6 @@
 // TODO (agonzalezro): organize this code and add some proper style
 
-var apiKey = "AkDUD0VvGiZnEYgXMzPgz0gbUG9KVSAVGMDHLeeVjCM1pbe-a7FCX4lkEMNJmdHZ";
+var apiKey = "ApcC3gGOBBU7Cbc6FANA6nOjBYOuRyoUDgY8OPOAEZ--G_VjQslh53MoXfti0sVv";
 map = new OpenLayers.Map("mapdiv");
 
 
